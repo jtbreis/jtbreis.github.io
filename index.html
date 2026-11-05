@@ -1,10 +1,177 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My GitHub Page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inertial Particles in Turbulent / Non-Turbulent Interfaces</title>
+  <meta name="description" content="Wind tunnel insights into cloud droplet dynamics. Poster by Julian Reis and Alberto Aliseda, University of Washington.">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Hello, World!</h1>
-    <p>Welcome to my brand new website.</p>
+
+<header>
+  <div class="wrap">
+    <h1>Inertial Particles in Turbulent / Non-Turbulent Interfaces</h1>
+    <p class="subtitle">Wind tunnel insights into cloud droplet dynamics</p>
+    <p class="authors">Julian Reis, Alberto Aliseda</p>
+    <p class="affiliation">University of Washington, Department of Mechanical Engineering</p>
+    <a class="download" href="GCC%202026%20Poster.pdf" download="GCC 2026 Poster.pdf">Download the poster (PDF, 8.1 MB)</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="facts" aria-labelledby="quick-facts">
+    <h2 id="quick-facts">Quick facts</h2>
+    <ul>
+      <li>Uncertainties in droplet growth rates remain an unsolved problem → turbulence-driven collision-coalescence could be an explanation</li>
+      <li>Turbulent interfaces are an essential element of clouds, where the interaction with droplets could cause coupling to other physical processes through condensation and evaporation</li>
+      <li>We use particle tracking in wind tunnel experiments to learn more about the dynamics of inertial particles in turbulent interfaces</li>
+      <li>The data shows that intermittent events strongly influence the settling velocity and transport of particles</li>
+      <li>We are planning to build physical models with Reduced Order Modeling (ROM) to incorporate observed small scale physics into large-scale cloud models such as Super Droplet Methods</li>
+    </ul>
+  </section>
+
+  <h2 id="motivation">Motivation</h2>
+  <p>While cloud models have made significant progress, they still contribute to the largest uncertainties in climate models (<a class="cite" href="#ref-bony2015">Bony et al., 2015</a>). One unsolved problem remains the evolution of droplet size distributions inside clouds and the onset of precipitation. Droplet growth starts with condensation of water vapor onto cloud condensation nuclei (CCN); around 20 micrometers, this process becomes too slow to explain the transition to drizzle droplets, for which the collection of smaller drops can well explain growth. <strong>Turbulence-driven collision-coalescence</strong> has been suggested as a driving force (<a class="cite" href="#ref-shaw2003">Shaw, 2003</a>).</p>
+
+  <figure class="narrow">
+    <img src="assets/figures/cloud-wing.webp" width="872" height="816" loading="lazy" alt="Photo from an aircraft window of a towering cumulonimbus cloud against dark blue sky. Labels mark HIT inside the cloud and TNTI at the sharp cloud edge.">
+    <figcaption>Cumulonimbus cloud, with homogeneous isotropic turbulence (HIT) inside the cloud and a turbulent / non-turbulent interface (TNTI) at its edge.</figcaption>
+  </figure>
+
+  <p>Modeling this phenomenon requires accurate modeling of the droplet physics down to the smallest scales of turbulence in cloud conditions. Wind tunnel experiments can provide insight into realistic particle interactions across a wide range of turbulence conditions comparable to those found in clouds (<a class="cite" href="#ref-bateson2012">Bateson &amp; Aliseda, 2012</a>).</p>
+
+  <h2 id="background">Background</h2>
+  <p><strong>Turbulence in clouds:</strong> Clouds form when warm, humid air rises and cools until water vapor condenses out. Instabilities that develop through buoyancy and shear cause large-scale energetic eddies <i>𝒪</i>(100&nbsp;m) (integral scale), which transfer their energy down to smaller scales at which energy is dissipated <i>𝒪</i>(1&nbsp;mm) (Kolmogorov Scale) (<a class="cite" href="#ref-shaw2003">Shaw, 2003</a>). Turbulence conditions in clouds are highly inhomogeneous: at cloud edges, turbulent air meets non-turbulent air, and inside clouds, different regions have different turbulent intensities (<a class="cite" href="#ref-bodenschatz2010">Bodenschatz et al., 2010</a>).</p>
+
+  <p>These regions form <strong>turbulent interfaces</strong>, characterized by regions of irrotational (non-turbulent) and rotational (turbulent) fluid, or by regions of different turbulent intensities. A thin interface layer separates the regions, where viscous effects match the vorticity of the different regions, causing a sharp jump in fluid properties. Two mechanisms entrain ambient fluid into the turbulent region, causing the interface region to grow. <strong>Engulfment</strong> is large-scale entrainment, and <strong>nibbling</strong> is small-scale viscous entrainment of ambient fluid (<a class="cite" href="#ref-dasilva2014">Da Silva et al., 2014</a>).</p>
+
+  <p>In clouds, interfaces drive interesting multiphysics by entraining dry air, causing local changes in temperature, supersaturation, buoyancy, and droplet-size distributions.</p>
+
+  <p><strong>Inertial particle dynamics:</strong> Whether a particle follows a fluid flow depends on how long it takes to adjust to the fluid velocity around it because of its inertia (particle response time <i>τ<sub>p</sub></i>), relative to the eddy turnover time. Particles with larger <i>τ<sub>p</sub></i> slip past the fluid flow longer until their velocity matches the fluid. We quantify this effect with the Stokes number St = <i>τ<sub>p</sub></i> / <i>τ</i><sub>eddy</sub>. Cloud droplets have non-negligible inertia compared to the smallest scale of the turbulent flow (the Kolmogorov length scale). These particles are called inertial particles; they do not follow the smallest fluctuations in the turbulent flow.</p>
+
+  <p>This has important impacts on particles in turbulent flows:</p>
+
+  <ul>
+    <li><strong>Crossing-trajectories effect:</strong> Particles cross fluid-element trajectories due to gravitational settling, weakening long-term turbulent dispersion (<a class="cite" href="#ref-csanady1963">Csanady, 1963</a>).</li>
+    <li><strong>Settling modification:</strong> When the particle Stokes number St ≈ 1, particles tend to spend more time on the downward-sweeping side of eddies, causing them to settle out faster on average (<a class="cite" href="#ref-maxey1987">Maxey, 1987</a>), called settling enhancement. Some evidence also suggests that heavier particles with St ≫ 1 tend to spend more time on the upward-sweeping side of eddies, causing them to settle out more slowly on average (<a class="cite" href="#ref-nielsen1993">Nielsen, 1993</a>), called hindering.
+      <figure class="narrow">
+        <img src="assets/figures/settling-modification.webp" width="816" height="1048" loading="lazy" alt="Schematic of two particle trajectories through an array of eddies. A blue particle passes the upward-sweeping side of the eddies and is hindered, with settling velocity below its still-fluid value. An orange particle passes the downward-sweeping side and is enhanced, with settling velocity above its still-fluid value.">
+        <figcaption>Settling modification: hindering (<i>v<sub>t</sub></i> &lt; <i>v</i><sub><i>t</i>,0</sub>) and enhancement (<i>v<sub>t</sub></i> &gt; <i>v</i><sub><i>t</i>,0</sub>).</figcaption>
+      </figure>
+    </li>
+    <li><strong>Preferential concentration:</strong> Particles are swept out of vortex cores due to their inertia, and they preferentially concentrate in regions of low vorticity and high strain rate, leaving behind void and clustered regions. In homogeneous isotropic turbulence, the size of clusters is of the order of 10 Kolmogorov length scales. Increasing the local concentration increases the likelihood of particle collisions (<a class="cite" href="#ref-aliseda2002">Aliseda et al., 2002</a>; <a class="cite" href="#ref-eaton1994">Eaton &amp; Fessler, 1994</a>).</li>
+  </ul>
+
+  <p>These effects have been well studied for particles in homogeneous turbulence, and we recently began focusing on inhomogeneous conditions such as turbulent interfaces (<a class="cite" href="#ref-ferran2024">Ferran et al., 2024</a>; <a class="cite" href="#ref-good2012">Good et al., 2012</a>).</p>
+
+  <h2 id="setup">Experimental setup</h2>
+  <figure>
+    <img src="assets/figures/setup.webp" width="2420" height="846" loading="lazy" alt="Schematic of the wind tunnel and 3D particle tracking setup. Fans and manifolds feed a contraction ending in a grid fitted with atomizers, shown in an inset photo. Downstream, a 1 by 1 by 4 metre test section contains cameras, lasers and mirrors, and ends in a rain catcher.">
+    <figcaption>Wind tunnel and 3D particle tracking. Heavy particles: <i>ρ<sub>p</sub></i> ≫ <i>ρ<sub>f</sub></i>. Sub-Kolmogorov particles: <i>d<sub>p</sub></i> &lt; <i>η</i>, the typical distribution found in clouds.</figcaption>
+  </figure>
+
+  <div class="table-scroll">
+    <table>
+      <caption>Wind tunnel</caption>
+      <tbody>
+        <tr><th scope="row">Test section</th><td>1×1×4 m</td></tr>
+        <tr><th scope="row">Velocity <i>U</i><sub>∞</sub></th><td>1–4 m/s</td></tr>
+        <tr><th scope="row">Kolmogorov <i>η</i></th><td>300 µm</td></tr>
+        <tr><th scope="row">Kolmogorov <i>τ<sub>η</sub></i></th><td>6 ms</td></tr>
+        <tr><th scope="row">Droplets <i>D</i><sub>10</sub></th><td>40.5 µm</td></tr>
+        <tr><th scope="row">Droplets <i>τ<sub>p</sub></i>(<i>D</i><sub>10</sub>)</th><td>5 ms</td></tr>
+        <tr><th scope="row">Droplets <i>D</i><sub>32</sub></th><td>98 µm</td></tr>
+        <tr><th scope="row">Vol. fraction <i>φ<sub>v</sub></i></th><td>10<sup>−5</sup></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="methods">Methods</h2>
+  <p>We perform measurements in a wind tunnel at the University of Washington designed to replicate cloud-like turbulence conditions and droplet sizes. Inside the test section, we create a polydisperse droplet-size distribution using an array of atomizers (<a class="cite" href="#ref-bateson2012">Bateson &amp; Aliseda, 2012</a>). The flow created by the atomizers significantly impacts the turbulent intensity in the wind tunnel, allowing us to create different regions of turbulent intensity. In a small measurement volume at the center of the turbulent interface, we illuminate particles with pulsed lasers. The lasers allow us to capture 4 consecutive particle positions that can be linked to tracks, enabling us to calculate velocities and accelerations for individual particles.</p>
+
+  <figure>
+    <img src="assets/figures/processing.webp" width="1971" height="826" loading="lazy" alt="Processing pipeline. A raw camera image of bright particles on black, with four laser-pulsed frames separated by a time step, leads to a 3D plot of processed particle tracks coloured by speed, from about 1.4 to 1.9 metres per second.">
+    <figcaption>Processing: stereo matching and particle tracking, from raw camera images to processed particle tracks.</figcaption>
+  </figure>
+
+  <h2 id="results">Results</h2>
+  <p>We investigate how the orientation of the turbulent interface with respect to gravitational acceleration changes the particle dynamics, and report 3 cases:</p>
+
+  <figure>
+    <img src="assets/figures/cases.webp" width="2042" height="650" loading="lazy" alt="Three grid diagrams showing where the spray is active relative to the tracking volume and gravity. In TNTI down the spray fills the top half, in TNTI up it fills the bottom half, and in TNTI left it fills the right half. Operating conditions: air 450 litres per minute, water 0.66 litres per minute, dilute conditions with volume fraction about 10 to the minus 5.">
+    <figcaption>The three interface orientations, with operating conditions <i>Q</i><sub>air</sub> = 450 lpm and <i>Q</i><sub>water</sub> = 0.66 lpm, giving dilute conditions <i>φ<sub>v</sub></i> ≈ 10<sup>−5</sup>.</figcaption>
+  </figure>
+
+  <ul>
+    <li><strong>TNTI ↓:</strong> gravity is assisting transport</li>
+    <li><strong>TNTI ↑:</strong> gravity is hindering transport</li>
+    <li><strong>TNTI ←:</strong> gravity doesn't impact transport</li>
+  </ul>
+
+  <p>To quantify the impact of intermittent events on our results we condition the particle velocities (<i>U</i><sub>x</sub>) on "burst events", which are characterized by significant deviations from the mean flow velocity ⟨<i>u</i><sub>x</sub>⟩, where <i>u′</i><sub>x</sub> is the fluid rms.</p>
+
+  <div class="equation">
+    <math display="block" aria-label="The absolute difference between U x and the mean of u x, divided by u prime x, indicates a burst if greater than 1 and no burst if less than 1.">
+      <mfrac>
+        <mrow><mo>|</mo><msub><mi>U</mi><mi mathvariant="normal">x</mi></msub><mo>−</mo><mo>⟨</mo><msub><mi>u</mi><mi mathvariant="normal">x</mi></msub><mo>⟩</mo><mo>|</mo></mrow>
+        <msubsup><mi>u</mi><mi mathvariant="normal">x</mi><mo>′</mo></msubsup>
+      </mfrac>
+      <mo>=</mo>
+      <mrow>
+        <mo>{</mo>
+        <mtable columnalign="left">
+          <mtr><mtd><mtext>burst if </mtext><mo>&gt;</mo><mn>1</mn></mtd></mtr>
+          <mtr><mtd><mtext>no burst if </mtext><mo>&lt;</mo><mn>1</mn></mtd></mtr>
+        </mtable>
+      </mrow>
+    </math>
+  </div>
+
+  <h3 id="settling">Droplet settling velocity</h3>
+  <figure class="medium">
+    <img src="assets/figures/settling-velocity.webp" width="1171" height="1642" loading="lazy" alt="Three stacked probability density plots of vertical particle velocity, burst dotted and no burst solid, with a reference line at the D10 terminal velocity of minus 0.048 metres per second. Mean velocities: TNTI down, burst minus 0.312 and no burst minus 0.250. TNTI up, burst plus 0.075 and no burst minus 0.070. TNTI left, burst minus 0.042 and no burst minus 0.086, all in metres per second.">
+    <figcaption>Probability density of the vertical particle velocity <i>v</i><sub>y</sub> for each case, split into burst and no-burst events.</figcaption>
+  </figure>
+  <p>Particle tracking does not allow us to determine droplet sizes; therefore, we compare settling to <i>v<sub>t</sub></i>(<i>D</i><sub>10</sub>).</p>
+  <p>Without bursts, the mean settling velocity increases, agreeing with observations under homogeneous turbulence conditions. Bursts significantly shift the mean and skewness of the distribution when gravitational acceleration influences the transport. Without gravitational acceleration, the distribution widens.</p>
+
+  <h3 id="flux">Particle flux towards the non-turbulent side</h3>
+  <figure class="medium">
+    <img src="assets/figures/particle-flux.webp" width="1485" height="951" loading="lazy" alt="Bar chart of particle flux towards the non-turbulent side, in units of a million particles times metres per second. TNTI down: burst about 2.65, no burst about 2.15. TNTI up: burst about 0.8, no burst slightly below zero. TNTI left: burst about 1.0, no burst about minus 0.2.">
+    <figcaption>Flux towards the non-turbulent side for each case, split into burst and no-burst events.</figcaption>
+  </figure>
+  <p>Gravitational acceleration significantly assists transport across the interface. Transport occurs only during burst events without the support of gravitational acceleration.</p>
+
+  <p>We're currently looking at the physics of particle-pair dynamics which would allow more physical collision kernel models.</p>
+
+  <p class="note">The results shown are work in progress and to be published.</p>
+
+  <h2 id="references">References</h2>
+  <ol class="references">
+    <li id="ref-aliseda2002">Aliseda, A., Cartellier, A., Hainaux, F., &amp; Lasheras, J. C. (2002). Effect of preferential concentration on the settling velocity of heavy particles in homogeneous isotropic turbulence. <i>Journal of Fluid Mechanics</i>, <i>468</i>, 77–105. <a href="https://doi.org/10.1017/S0022112002001593">https://doi.org/10.1017/S0022112002001593</a></li>
+    <li id="ref-bateson2012">Bateson, C. P., &amp; Aliseda, A. (2012). Wind tunnel measurements of the preferential concentration of inertial droplets in homogeneous isotropic turbulence. <i>Experiments in Fluids</i>, <i>52</i>(6), 1373–1387. <a href="https://doi.org/10.1007/s00348-011-1252-6">https://doi.org/10.1007/s00348-011-1252-6</a></li>
+    <li id="ref-bodenschatz2010">Bodenschatz, E., Malinowski, S. P., Shaw, R. A., &amp; Stratmann, F. (2010). Can we understand clouds without turbulence? <i>Science</i>, <i>327</i>(5968), 970–971. <a href="https://doi.org/10.1126/science.1185138">https://doi.org/10.1126/science.1185138</a></li>
+    <li id="ref-bony2015">Bony, S., Stevens, B., Frierson, D. M. W., Jakob, C., Kageyama, M., Pincus, R., Shepherd, T. G., Sherwood, S. C., Siebesma, A. P., Sobel, A. H., Watanabe, M., &amp; Webb, M. J. (2015). Clouds, circulation and climate sensitivity. <i>Nature Geoscience</i>, <i>8</i>(4), 261–268. <a href="https://doi.org/10.1038/ngeo2398">https://doi.org/10.1038/ngeo2398</a></li>
+    <li id="ref-csanady1963">Csanady, G. T. (1963). Turbulent diffusion of heavy particles in the atmosphere. <i>Journal of the Atmospheric Sciences</i>, <i>20</i>(3), 201–208. <a href="https://doi.org/10.1175/1520-0469(1963)020%3C0201:TDOHPI%3E2.0.CO;2">https://doi.org/10.1175/1520-0469(1963)020&lt;0201:TDOHPI&gt;2.0.CO;2</a></li>
+    <li id="ref-dasilva2014">Da Silva, C. B., Hunt, J. C. R., Eames, I., &amp; Westerweel, J. (2014). Interfacial layers between regions of different turbulence intensity. <i>Annual Review of Fluid Mechanics</i>, <i>46</i>(1), 567–590. <a href="https://doi.org/10.1146/annurev-fluid-010313-141357">https://doi.org/10.1146/annurev-fluid-010313-141357</a></li>
+    <li id="ref-eaton1994">Eaton, J. K., &amp; Fessler, J. R. (1994). Preferential concentration of particles by turbulence. <i>International Journal of Multiphase Flow</i>, <i>20</i>, 169–209. <a href="https://doi.org/10.1016/0301-9322(94)90072-8">https://doi.org/10.1016/0301-9322(94)90072-8</a></li>
+    <li id="ref-ferran2024">Ferran, A., Obligado, M., &amp; Aliseda, A. (2024). Inertial particles in a turbulent/turbulent interface. <i>International Journal of Multiphase Flow</i>, <i>179</i>, 104911. <a href="https://doi.org/10.1016/j.ijmultiphaseflow.2024.104911">https://doi.org/10.1016/j.ijmultiphaseflow.2024.104911</a></li>
+    <li id="ref-good2012">Good, G. H., Gerashchenko, S., &amp; Warhaft, Z. (2012). Intermittency and inertial particle entrainment at a turbulent interface: The effect of the large-scale eddies. <i>Journal of Fluid Mechanics</i>, <i>694</i>, 371–398. <a href="https://doi.org/10.1017/jfm.2011.552">https://doi.org/10.1017/jfm.2011.552</a></li>
+    <li id="ref-maxey1987">Maxey, M. R. (1987). The gravitational settling of aerosol particles in homogeneous turbulence and random flow fields. <i>Journal of Fluid Mechanics</i>, <i>174</i>, 441–465. <a href="https://doi.org/10.1017/S0022112087000193">https://doi.org/10.1017/S0022112087000193</a></li>
+    <li id="ref-nielsen1993">Nielsen, P. (1993). Turbulence effects on the settling of suspended particles. <i>Journal of Sedimentary Research</i>, <i>63</i>(5), 835–838. <a href="https://doi.org/10.1306/D4267C1C-2B26-11D7-8648000102C1865D">https://doi.org/10.1306/D4267C1C-2B26-11D7-8648000102C1865D</a></li>
+    <li id="ref-shaw2003">Shaw, R. A. (2003). Particle-turbulence interactions in atmospheric clouds. <i>Annual Review of Fluid Mechanics</i>, <i>35</i>(1), 183–227. <a href="https://doi.org/10.1146/annurev.fluid.35.101101.161125">https://doi.org/10.1146/annurev.fluid.35.101101.161125</a></li>
+  </ol>
+
+  <h3 id="conference-paper">Conference paper</h3>
+  <p>Reis, J., Ferran, A., Obligado, M., &amp; Aliseda, A. (2026). Effect of gravity on sub-Kolmogorov inertial particles in a turbulent-non turbulent interface. <i>TSFP14</i>. <a href="http://www.tsfp-conference.org/proceedings/2026/195.pdf">http://www.tsfp-conference.org/proceedings/2026/195.pdf</a></p>
+
+</main>
+
+<footer>
+  <div class="wrap">Julian Reis, University of Washington · <a href="GCC%202026%20Poster.pdf" download="GCC 2026 Poster.pdf">Download the poster</a></div>
+</footer>
+
 </body>
 </html>
